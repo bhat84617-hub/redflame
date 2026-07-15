@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RED FLAME RESTAURANT | Loni, Ghaziabad</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Poppins:wght@300;400;500;600;700&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        :root{
+            --red:#E63946;--dark-red:#9D0208;--orange:#F4845F;--gold:#FFB703;
+            --dark:#1A1A2E;--darker:#16213E;--light:#FAFAFA;--cream:#FFF8F0;
+            --gradient:linear-gradient(135deg,#E63946,#F4845F,#FFB703);
+            --gradient2:linear-gradient(135deg,#9D0208,#E63946);
+            --veg-green:#0F9B0F;--nonveg-red:#C41E3A;
+        }
+        html{scroll-behavior:smooth}
+        body{font-family:'Poppins',sans-serif;background:var(--cream);color:#333;overflow-x:hidden}
+        ::-webkit-scrollbar{width:8px}
+        ::-webkit-scrollbar-track{background:var(--dark)}
+        ::-webkit-scrollbar-thumb{background:var(--red);border-radius:4px}
+
+        /* VEG / NON-VEG INDICATORS */
+        .food-type{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:2px;margin-right:8px;flex-shrink:0;border:2px solid;vertical-align:middle}
+        .food-type.veg{border-color:var(--veg-green)}
+        .food-type.veg::after{content:'';width:8px;height:8px;border-radius:50%;background:var(--veg-green)}
+        .food-type.nonveg{border-color:var(--nonveg-red)}
+        .food-type.nonveg::after{content:'';width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-bottom:8px solid var(--nonveg-red)}
+
+        /* NAVBAR */
+        .navbar{position:fixed;top:0;width:100%;z-index:1000;padding:15px 5%;display:flex;justify-content:space-between;align-items:center;transition:all .4s ease}
+        .navbar.scrolled{background:rgba(26,26,46,.95);backdrop-filter:blur(20px);padding:10px 5%;box-shadow:0 4px 30px rgba(230,57,70,.3)}
+        .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+        .nav-logo .flame-icon{font-size:2rem;filter:drop-shadow(0 0 10px rgba(230,57,70,.6))}
+        .nav-logo span{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:2px}
+        .nav-links{display:flex;gap:30px;list-style:none}
+        .nav-links a{text-decoration:none;color:#fff;font-size:.9rem;font-weight:500;position:relative;transition:color .3s}
+        .nav-links a::after{content:'';position:absolute;bottom:-5px;left:0;width:0;height:2px;background:var(--gold);transition:width .3s}
+        .nav-links a:hover{color:var(--gold)}
+        .nav-links a:hover::after{width:100%}
+        .nav-cta{background:var(--gradient);color:#fff;padding:10px 25px;border:none;border-radius:50px;font-weight:600;cursor:pointer;font-size:.9rem;transition:transform .3s,box-shadow .3s;text-decoration:none}
+        .nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(230,57,70,.4)}
+        .hamburger{display:none;flex-direction:column;cursor:pointer;gap:5px}
+        .hamburger span{width:25px;height:3px;background:#fff;border-radius:3px;transition:.3s}
+
+        /* HERO */
+        .hero{min-height:100vh;background:linear-gradient(135deg,rgba(26,26,46,.88),rgba(157,2,8,.82)),url('images/restaurant-exterior.jpeg');background-size:cover;background-position:center;display:flex;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden}
+        .hero::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(230,57,70,.15) 0%,transparent 60%);animation:pulse 8s ease-in-out infinite}
+        @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+        .hero-particles{position:absolute;width:100%;height:100%;overflow:hidden}
+        .particle{position:absolute;width:4px;height:4px;background:var(--gold);border-radius:50%;animation:float 6s infinite;opacity:.6}
+        .particle:nth-child(1){left:10%;animation-delay:0s;animation-duration:8s}
+        .particle:nth-child(2){left:20%;animation-delay:1s;animation-duration:6s}
+        .particle:nth-child(3){left:30%;animation-delay:2s;animation-duration:7s}
+        .particle:nth-child(4){left:40%;animation-delay:3s;animation-duration:9s}
+        .particle:nth-child(5){left:50%;animation-delay:.5s;animation-duration:5s}
+        .particle:nth-child(6){left:60%;animation-delay:1.5s;animation-duration:8s}
+        .particle:nth-child(7){left:70%;animation-delay:2.5s;animation-duration:6s}
+        .particle:nth-child(8){left:80%;animation-delay:3.5s;animation-duration:7s}
+        .particle:nth-child(9){left:90%;animation-delay:.8s;animation-duration:9s}
+        .particle:nth-child(10){left:15%;animation-delay:4s;animation-duration:5s}
+        @keyframes float{0%{transform:translateY(100vh) scale(0);opacity:0}50%{opacity:.8}100%{transform:translateY(-100px) scale(1.5);opacity:0}}
+
+        .hero-food-float{position:absolute;font-size:4rem;opacity:.12;animation:floatFood 15s ease-in-out infinite;pointer-events:none}
+        .hero-food-float:nth-child(1){top:10%;left:5%;animation-delay:0s}
+        .hero-food-float:nth-child(2){top:60%;right:8%;animation-delay:3s;font-size:3.5rem}
+        .hero-food-float:nth-child(3){bottom:15%;left:15%;animation-delay:6s;font-size:3rem}
+        .hero-food-float:nth-child(4){top:20%;right:20%;animation-delay:9s;font-size:4.5rem}
+        .hero-food-float:nth-child(5){bottom:30%;right:30%;animation-delay:2s;font-size:3rem}
+        @keyframes floatFood{0%,100%{transform:translateY(0) rotate(0deg)}25%{transform:translateY(-20px) rotate(5deg)}50%{transform:translateY(-10px) rotate(-3deg)}75%{transform:translateY(-25px) rotate(2deg)}}
+
+        .hero-content{position:relative;z-index:2;max-width:800px;padding:0 20px}
+        .hero-badge{display:inline-block;background:rgba(255,183,3,.15);border:1px solid var(--gold);color:var(--gold);padding:8px 25px;border-radius:50px;font-size:.85rem;font-weight:500;letter-spacing:3px;text-transform:uppercase;margin-bottom:25px;animation:fadeInDown 1s ease}
+        .hero h1{font-family:'Playfair Display',serif;font-size:4.5rem;font-weight:900;color:#fff;line-height:1.1;margin-bottom:10px;animation:fadeInUp 1s ease .2s both}
+        .hero h1 .highlight{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+        .hero h1 .script{font-family:'Dancing Script',serif;font-size:3rem;color:var(--gold);display:block;margin-top:5px}
+        .hero p{color:rgba(255,255,255,.8);font-size:1.15rem;margin:20px 0 35px;line-height:1.8;animation:fadeInUp 1s ease .4s both}
+        .hero-btns{display:flex;gap:15px;justify-content:center;flex-wrap:wrap;animation:fadeInUp 1s ease .6s both}
+        .btn-primary{background:var(--gradient);color:#fff;padding:15px 40px;border:none;border-radius:50px;font-size:1rem;font-weight:600;cursor:pointer;transition:all .3s;text-decoration:none;display:inline-flex;align-items:center;gap:8px}
+        .btn-primary:hover{transform:translateY(-3px);box-shadow:0 15px 40px rgba(230,57,70,.4)}
+        .btn-outline{background:transparent;color:#fff;padding:15px 40px;border:2px solid rgba(255,255,255,.3);border-radius:50px;font-size:1rem;font-weight:500;cursor:pointer;transition:all .3s;text-decoration:none}
+        .btn-outline:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-3px)}
+        .scroll-indicator{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);z-index:2;animation:bounce 2s infinite}
+        @keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(10px)}}
+        .scroll-indicator span{display:block;width:20px;height:20px;border-right:2px solid var(--gold);border-bottom:2px solid var(--gold);transform:rotate(45deg);opacity:.6}
+        @keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+        @keyframes fadeInDown{from{opacity:0;transform:translateY(-30px)}to{opacity:1;transform:translateY(0)}}
+
+        /* SECTIONS */
+        section{padding:100px 5%}
+        .section-header{text-align:center;margin-bottom:60px}
+        .section-tag{font-family:'Dancing Script',serif;font-size:1.2rem;color:var(--red);margin-bottom:10px;display:block}
+        .section-title{font-family:'Playfair Display',serif;font-size:3rem;font-weight:700;color:var(--dark)}
+        .section-title .highlight{color:var(--red)}
+        .section-line{width:80px;height:4px;background:var(--gradient);margin:15px auto;border-radius:2px}
+
+        /* FOOD IMAGE CARD */
+        .food-img-card{width:100%;height:100%;border-radius:inherit;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center}
+        .food-img-card img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+        .food-img-card:hover img{transform:scale(1.1)}
+        .food-img-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:4rem;position:relative;overflow:hidden}
+
+        /* ABOUT */
+        .about{background:#fff}
+        .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;max-width:1200px;margin:0 auto}
+        .about-image{position:relative}
+        .about-img-box{width:100%;height:450px;border-radius:20px;overflow:hidden;position:relative;box-shadow:0 20px 60px rgba(230,57,70,.3)}
+        .about-img-box .food-img-placeholder{font-size:10rem;background:linear-gradient(135deg,#9D0208,#E63946,#F4845F)}
+        .about-float-card{position:absolute;bottom:-20px;right:-20px;background:#fff;padding:20px 25px;border-radius:15px;box-shadow:0 10px 40px rgba(0,0,0,.15);display:flex;align-items:center;gap:15px;z-index:2}
+        .about-float-card .number{font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:var(--red)}
+        .about-float-card .text{font-size:.85rem;color:#666;line-height:1.5}
+        .about-text h3{font-family:'Playfair Display',serif;font-size:2rem;color:var(--dark);margin-bottom:15px}
+        .about-text p{color:#666;line-height:1.9;margin-bottom:20px}
+        .about-features{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-top:25px}
+        .about-feature{display:flex;align-items:center;gap:10px;font-size:.9rem;color:var(--dark)}
+        .about-feature .icon{width:35px;height:35px;border-radius:10px;background:rgba(230,57,70,.1);display:flex;align-items:center;justify-content:center;font-size:1rem}
+
+        /* SPECIALTIES */
+        .specialties{background:linear-gradient(135deg,var(--dark),var(--darker));position:relative;overflow:hidden}
+        .specialties::before{content:'';position:absolute;top:-50%;right:-20%;width:500px;height:500px;background:radial-gradient(circle,rgba(230,57,70,.15),transparent);border-radius:50%}
+        .specialties .section-title{color:#fff}
+        .specialty-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px;max-width:1200px;margin:0 auto}
+        .specialty-card{background:rgba(255,255,255,.05);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.1);border-radius:20px;text-align:center;transition:all .4s;position:relative;overflow:hidden}
+        .specialty-card:hover{transform:translateY(-10px);border-color:var(--red);box-shadow:0 20px 50px rgba(230,57,70,.2)}
+        .specialty-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px;background:var(--gradient);transform:scaleX(0);transition:transform .4s}
+        .specialty-card:hover::before{transform:scaleX(1)}
+        .specialty-card-img{width:100%;height:180px;overflow:hidden;position:relative}
+        .specialty-card-img .food-img-placeholder{font-size:5rem}
+        .specialty-card-body{padding:25px 30px 35px}
+        .specialty-card h3{color:#fff;font-family:'Playfair Display',serif;font-size:1.4rem;margin-bottom:10px}
+        .specialty-card p{color:rgba(255,255,255,.6);font-size:.9rem;line-height:1.7}
+        .specialty-price{display:inline-block;margin-top:15px;color:var(--gold);font-size:1.2rem;font-weight:700}
+
+        /* MENU */
+        .menu{background:var(--cream)}
+        .menu-categories{display:flex;justify-content:center;gap:10px;margin-bottom:40px;flex-wrap:wrap}
+        .menu-cat{padding:10px 25px;border:2px solid #ddd;border-radius:50px;cursor:pointer;font-size:.9rem;font-weight:500;transition:all .3s;background:transparent;color:#666}
+        .menu-cat.active,.menu-cat:hover{background:var(--red);color:#fff;border-color:var(--red)}
+        .menu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:25px;max-width:1200px;margin:0 auto}
+
+        .menu-item{background:#fff;border-radius:18px;display:flex;gap:0;align-items:stretch;box-shadow:0 5px 20px rgba(0,0,0,.05);transition:all .3s;border:1px solid transparent;overflow:hidden}
+        .menu-item:hover{transform:translateY(-3px);border-color:var(--red);box-shadow:0 10px 30px rgba(230,57,70,.15)}
+        .menu-item-img{width:120px;min-height:120px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:3rem;position:relative;overflow:hidden}
+        .menu-item-img .food-img-placeholder{font-size:3.5rem;width:100%;height:100%;border-radius:0}
+        .menu-item-details{flex:1;padding:15px 18px;display:flex;flex-direction:column;justify-content:center;gap:3px}
+        .menu-item-details h4{font-size:1rem;color:var(--dark);display:flex;align-items:center;margin-bottom:2px}
+        .menu-item-details .desc{font-size:.78rem;color:#999;line-height:1.5}
+        .menu-item-meta{display:flex;align-items:center;gap:10px;margin-top:4px}
+        .menu-item-tag{font-size:.65rem;padding:2px 8px;border-radius:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+        .menu-item-tag.spicy{background:#FEE2E2;color:var(--nonveg-red)}
+        .menu-item-tag.bestseller{background:#FEF3C7;color:#B45309}
+        .menu-item-tag.healthy{background:#D1FAE5;color:#065F46}
+        .menu-item-price{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;color:var(--red);white-space:nowrap;align-self:center;padding-right:18px}
+
+        /* GALLERY */
+        .gallery{background:#fff;overflow:hidden}
+        .gallery-scroll{display:flex;gap:20px;animation:scrollGallery 40s linear infinite;width:max-content}
+        .gallery-scroll:hover{animation-play-state:paused}
+        @keyframes scrollGallery{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+        .gallery-item{width:300px;height:250px;border-radius:20px;flex-shrink:0;overflow:hidden;cursor:pointer;position:relative}
+        .gallery-item .food-img-placeholder{font-size:5rem;width:100%;height:100%;border-radius:20px}
+        .gallery-item::after{content:'View Dish';position:absolute;inset:0;background:rgba(230,57,70,.75);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;font-size:1.1rem;opacity:0;transition:opacity .4s;border-radius:20px;backdrop-filter:blur(2px)}
+        .gallery-item:hover::after{opacity:1}
+
+        /* TESTIMONIALS */
+        .testimonials{background:linear-gradient(135deg,var(--dark),var(--darker));position:relative}
+        .testimonials .section-title{color:#fff}
+        .testimonial-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(350px,1fr));gap:30px;max-width:1200px;margin:0 auto}
+        .testimonial-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:20px;padding:35px;position:relative}
+        .testimonial-card .stars{color:var(--gold);font-size:1.1rem;margin-bottom:15px}
+        .testimonial-card p{color:rgba(255,255,255,.7);font-size:.95rem;line-height:1.8;font-style:italic;margin-bottom:20px}
+        .testimonial-author{display:flex;align-items:center;gap:15px}
+        .testimonial-avatar{width:50px;height:50px;border-radius:50%;background:var(--gradient);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:1.1rem}
+        .testimonial-author-info h5{color:#fff;font-size:.95rem}
+        .testimonial-author-info span{color:rgba(255,255,255,.5);font-size:.8rem}
+        .testimonial-card::before{content:'"';font-family:'Playfair Display',serif;font-size:5rem;color:rgba(230,57,70,.3);position:absolute;top:10px;right:25px}
+
+        /* OFFERS */
+        .offers{background:var(--cream)}
+        .offers-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(350px,1fr));gap:30px;max-width:1200px;margin:0 auto}
+        .offer-card{border-radius:20px;padding:40px;color:#fff;position:relative;overflow:hidden;min-height:200px}
+        .offer-card:nth-child(1){background:linear-gradient(135deg,#E63946,#9D0208)}
+        .offer-card:nth-child(2){background:linear-gradient(135deg,#F4845F,#E63946)}
+        .offer-card:nth-child(3){background:linear-gradient(135deg,#FFB703,#F4845F)}
+        .offer-card::before{content:'';position:absolute;top:-30px;right:-30px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.1)}
+        .offer-card h3{font-family:'Playfair Display',serif;font-size:1.8rem;margin-bottom:10px}
+        .offer-card p{font-size:.95rem;opacity:.9;line-height:1.7}
+        .offer-tag{position:absolute;top:20px;right:20px;background:rgba(255,255,255,.2);padding:5px 15px;border-radius:50px;font-size:.8rem;font-weight:600}
+
+        /* CONTACT */
+        .contact{background:#fff}
+        .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:50px;max-width:1200px;margin:0 auto}
+        .contact-info{display:flex;flex-direction:column;gap:25px}
+        .contact-card{display:flex;align-items:flex-start;gap:20px;padding:25px;background:var(--cream);border-radius:15px;transition:all .3s}
+        .contact-card:hover{transform:translateX(5px);box-shadow:0 10px 30px rgba(230,57,70,.1)}
+        .contact-card-icon{width:55px;height:55px;border-radius:15px;background:var(--gradient);display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0}
+        .contact-card h4{font-size:1rem;color:var(--dark);margin-bottom:5px}
+        .contact-card p{font-size:.9rem;color:#666;line-height:1.6}
+        .contact-map{border-radius:20px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.1);min-height:400px}
+        .contact-map iframe{width:100%;height:100%;min-height:400px;border:none}
+        .social-links{display:flex;gap:12px;margin-top:15px}
+        .social-link{width:45px;height:45px;border-radius:12px;background:var(--gradient);display:flex;align-items:center;justify-content:center;color:#fff;text-decoration:none;font-size:1.1rem;transition:all .3s}
+        .social-link:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(230,57,70,.3)}
+
+        /* FOOTER */
+        .footer{background:var(--dark);padding:60px 5% 30px;color:#fff}
+        .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;max-width:1200px;margin:0 auto}
+        .footer-brand h3{font-family:'Playfair Display',serif;font-size:1.8rem;margin-bottom:15px}
+        .footer-brand h3 .highlight{color:var(--red)}
+        .footer-brand p{color:rgba(255,255,255,.6);font-size:.9rem;line-height:1.8}
+        .footer-col h4{font-size:1rem;margin-bottom:20px;color:var(--gold)}
+        .footer-col ul{list-style:none}
+        .footer-col li{margin-bottom:10px}
+        .footer-col a{color:rgba(255,255,255,.6);text-decoration:none;font-size:.9rem;transition:color .3s}
+        .footer-col a:hover{color:var(--gold)}
+        .footer-bottom{border-top:1px solid rgba(255,255,255,.1);margin-top:40px;padding-top:25px;text-align:center;color:rgba(255,255,255,.4);font-size:.85rem}
+        .footer-bottom .highlight{color:var(--red)}
+
+        /* RESPONSIVE */
+        @media(max-width:768px){
+            .nav-links,.nav-cta{display:none}.hamburger{display:flex}
+            .hero h1{font-size:2.5rem}.hero h1 .script{font-size:2rem}
+            .about-grid,.contact-grid{grid-template-columns:1fr}
+            .section-title{font-size:2rem}
+            .footer-grid{grid-template-columns:1fr 1fr}
+            .menu-grid,.testimonial-grid,.offers-grid{grid-template-columns:1fr}
+            .about-float-card{position:relative;bottom:auto;right:auto;margin-top:15px;display:inline-flex}
+            .menu-item-img{width:100px;min-height:100px}
+        }
+
+        .reveal{opacity:0;transform:translateY(40px);transition:all .8s ease}
+        .reveal.active{opacity:1;transform:translateY(0)}
+
+        .back-to-top{position:fixed;bottom:30px;right:30px;width:50px;height:50px;border-radius:15px;background:var(--gradient);color:#fff;border:none;font-size:1.3rem;cursor:pointer;opacity:0;visibility:hidden;transition:all .3s;z-index:999;display:flex;align-items:center;justify-content:center}
+        .back-to-top.visible{opacity:1;visibility:visible}
+        .back-to-top:hover{transform:translateY(-3px);box-shadow:0 10px 25px rgba(230,57,70,.4)}
+
+        /* BOOK TABLE MODAL */
+        .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);z-index:2000;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:all .4s;padding:20px}
+        .modal-overlay.active{opacity:1;visibility:visible}
+        .booking-modal{background:#fff;border-radius:24px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;transform:translateY(40px) scale(.95);transition:all .4s;position:relative}
+        .modal-overlay.active .booking-modal{transform:translateY(0) scale(1)}
+        .modal-header{background:var(--gradient2);padding:35px 30px 30px;border-radius:24px 24px 0 0;position:relative;overflow:hidden}
+        .modal-header::before{content:'';position:absolute;top:-40px;right:-40px;width:120px;height:120px;background:rgba(255,255,255,.1);border-radius:50%}
+        .modal-header::after{content:'';position:absolute;bottom:-20px;left:-20px;width:80px;height:80px;background:rgba(255,255,255,.08);border-radius:50%}
+        .modal-header h2{font-family:'Playfair Display',serif;font-size:1.8rem;color:#fff;position:relative;z-index:1}
+        .modal-header p{color:rgba(255,255,255,.8);font-size:.9rem;margin-top:5px;position:relative;z-index:1}
+        .modal-close{position:absolute;top:15px;right:20px;background:rgba(255,255,255,.15);border:none;color:#fff;width:38px;height:38px;border-radius:50%;font-size:1.3rem;cursor:pointer;transition:all .3s;display:flex;align-items:center;justify-content:center;z-index:2}
+        .modal-close:hover{background:rgba(255,255,255,.3);transform:rotate(90deg)}
+        .modal-body{padding:30px}
+        .form-row{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+        .form-group{margin-bottom:18px}
+        .form-group label{display:block;font-size:.85rem;font-weight:600;color:var(--dark);margin-bottom:6px}
+        .form-group label .required{color:var(--red)}
+        .form-group input,.form-group select,.form-group textarea{width:100%;padding:12px 16px;border:2px solid #E5E7EB;border-radius:12px;font-family:'Poppins',sans-serif;font-size:.9rem;color:var(--dark);transition:all .3s;background:#FAFAFA;outline:none}
+        .form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--red);background:#fff;box-shadow:0 0 0 4px rgba(230,57,70,.1)}
+        .form-group textarea{resize:vertical;min-height:80px}
+        .form-group input::placeholder,.form-group textarea::placeholder{color:#9CA3AF}
+        .form-submit{width:100%;padding:15px;background:var(--gradient);color:#fff;border:none;border-radius:14px;font-size:1.05rem;font-weight:700;cursor:pointer;transition:all .3s;display:flex;align-items:center;justify-content:center;gap:10px;font-family:'Poppins',sans-serif;margin-top:5px}
+        .form-submit:hover{transform:translateY(-2px);box-shadow:0 12px 35px rgba(230,57,70,.4)}
+        .form-submit:active{transform:translateY(0)}
+        .whatsapp-badge{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:15px;padding:10px;background:#DCF8C6;border-radius:10px;font-size:.8rem;color:#075E54;font-weight:500}
+        .whatsapp-badge svg{width:18px;height:18px}
+        @media(max-width:500px){.form-row{grid-template-columns:1fr}.booking-modal{border-radius:20px}.modal-header{border-radius:20px 20px 0 0;padding:25px 20px}.modal-body{padding:20px}}
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+    <a href="#" class="nav-logo"><span class="flame-icon">🔥</span><span>Red Flame</span></a>
+    <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#specialties">Specialties</a></li>
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#testimonials">Reviews</a></li>
+        <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#" class="nav-cta" onclick="event.preventDefault();openBookingModal()">Book Table</a>
+    <div class="hamburger" onclick="this.classList.toggle('active')"><span></span><span></span><span></span></div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+    <div class="hero-particles">
+        <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+        <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+        <div class="particle"></div><div class="particle"></div><div class="particle"></div>
+        <div class="particle"></div>
+    </div>
+    <div class="hero-food-float">🍗</div>
+    <div class="hero-food-float">🍛</div>
+    <div class="hero-food-float">🫕</div>
+    <div class="hero-food-float">🍲</div>
+    <div class="hero-food-float">🥟</div>
+    <div class="hero-content">
+        <div class="hero-badge">Since 2020 | Loni, Ghaziabad</div>
+        <h1>Welcome to <span class="highlight">Red Flame</span><span class="script">Restaurant</span></h1>
+        <p>Where every dish tells a story of passion and flavor. Experience the authentic taste of Indian cuisine crafted with love and the finest ingredients.</p>
+        <div class="hero-btns">
+            <a href="#menu" class="btn-primary">🍽️ Explore Menu</a>
+            <a href="#" class="btn-outline" onclick="event.preventDefault();openBookingModal()">📅 Book Table</a>
+        </div>
+    </div>
+    <div class="scroll-indicator"><span></span></div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+    <div class="section-header reveal">
+        <span class="section-tag">Our Story</span>
+        <h2 class="section-title">Crafting <span class="highlight">Memories</span> Since 2020</h2>
+        <div class="section-line"></div>
+    </div>
+    <div class="about-grid">
+        <div class="about-image reveal">
+            <div class="about-img-box">
+                <img src="images/front-1.jpeg" alt="Red Flame Restaurant" style="width:100%;height:100%;object-fit:cover">
+            </div>
+            <div class="about-float-card">
+                <div class="number">5+</div>
+                <div class="text">Years of<br>Serving Excellence</div>
+            </div>
+        </div>
+        <div class="about-text reveal">
+            <h3>A Taste That Stays With You Forever</h3>
+            <p>Nestled in the heart of Loni, Ghaziabad, Red Flame Restaurant is more than just a place to eat — it's an experience. We started with a simple dream: to bring authentic, mouth-watering Indian flavors to every table.</p>
+            <p>Our chefs combine traditional recipes with modern techniques, ensuring every dish is a masterpiece. From sizzling tandoori grills to rich curries and fresh naans, every bite is a celebration.</p>
+            <div class="about-features">
+                <div class="about-feature"><div class="icon">👨‍🍳</div><span>Expert Chefs</span></div>
+                <div class="about-feature"><div class="icon">🌿</div><span>Fresh Ingredients</span></div>
+                <div class="about-feature"><div class="icon">🏆</div><span>Award Winning</span></div>
+                <div class="about-feature"><div class="icon">❤️</div><span>Made with Love</span></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SPECIALTIES -->
+<section class="specialties" id="specialties">
+    <div class="section-header reveal">
+        <span class="section-tag" style="color:var(--gold)">Why Choose Us</span>
+        <h2 class="section-title">Our <span class="highlight">Signature</span> Specialties</h2>
+        <div class="section-line"></div>
+    </div>
+    <div class="specialty-grid">
+        <div class="specialty-card reveal">
+            <div class="specialty-card-img">
+                <img src="images/tandoori-chicken.jpeg" alt="Tandoori Delights" style="width:100%;height:100%;object-fit:cover">
+            </div>
+            <div class="specialty-card-body">
+                <h3>Tandoori Delights</h3>
+                <p>Smoky, juicy kebabs and tikkas cooked to perfection in our traditional clay oven</p>
+                <div class="specialty-price">Starting ₹199</div>
+            </div>
+        </div>
+        <div class="specialty-card reveal">
+            <div class="specialty-card-img">
+                <img src="images/butter-chicken.jpeg" alt="Rich Curries" style="width:100%;height:100%;object-fit:cover">
+            </div>
+            <div class="specialty-card-body">
+                <h3>Rich Curries</h3>
+                <p>Creamy, aromatic curries slow-cooked with premium spices and fresh ingredients</p>
+                <div class="specialty-price">Starting ₹179</div>
+            </div>
+        </div>
+        <div class="specialty-card reveal">
+            <div class="specialty-card-img">
+                <img src="images/naan.jpeg" alt="Fresh Breads" style="width:100%;height:100%;object-fit:cover">
+            </div>
+            <div class="specialty-card-body">
+                <h3>Fresh Breads</h3>
+                <p>Hand-stretched naans, rotis and parathas baked fresh in our tandoor every day</p>
+                <div class="specialty-price">Starting ₹49</div>
+            </div>
+        </div>
+        <div class="specialty-card reveal">
+            <div class="specialty-card-img">
+                <img src="images/cold-drinks.jpeg" alt="Cool Beverages" style="width:100%;height:100%;object-fit:cover">
+            </div>
+            <div class="specialty-card-body">
+                <h3>Cool Beverages</h3>
+                <p>Refreshing mocktails, lassi, and cold drinks to perfectly complement your meal</p>
+                <div class="specialty-price">Starting ₹39</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- MENU -->
+<section class="menu" id="menu">
+    <div class="section-header reveal">
+        <span class="section-tag">Delicious Choices</span>
+        <h2 class="section-title">Our <span class="highlight">Menu</span></h2>
+        <div class="section-line"></div>
+    </div>
+    <div class="menu-categories reveal">
+        <button class="menu-cat active" onclick="filterMenu('all',this)">All</button>
+        <button class="menu-cat" onclick="filterMenu('starter',this)">Starters</button>
+        <button class="menu-cat" onclick="filterMenu('main',this)">Main Course</button>
+        <button class="menu-cat" onclick="filterMenu('breads',this)">Breads</button>
+        <button class="menu-cat" onclick="filterMenu('beverage',this)">Beverages</button>
+    </div>
+    <div class="menu-grid" id="menuGrid">
+
+        <!-- CHICKEN TIKKA - NON-VEG -->
+        <div class="menu-item reveal" data-category="starter" data-type="nonveg">
+            <div class="menu-item-img">
+                <img src="images/tandoori-chicken.jpeg" alt="Chicken Tikka" style="width:100%;height:100%;object-fit:cover">
+            </div>
+            <div class="menu-item-details">
+                <h4><span class="food-type nonveg"></span>Chicken Tikka</h4>
+                <p class="desc">Marinated chicken grilled in tandoor with spices</p>
+                <div class="menu-item-meta"><span class="menu-item-tag spicy">Spicy</span><span class="menu-item-tag bestseller">Bestseller</span></div>
+            </div>
+            <div class="menu-item-price">₹249</div>
+        </div>
+
+        <!-- SEEKH KEBAB - NON-VEG -->
+        <div class="menu-item reveal" data-category="starter" data-type="nonveg">
+            <div class="menu-item-img">
+                <img src="images/food-plate-1.jpeg" alt="Seekh Kebab" style="width:100%;height:100%;object-fit:cover">
+            </div>
+            <div class="menu-item-details">
+                <h4><span class="food-type nonveg"></span>Seekh Kebab</h4>
+                <p class="desc">Minced meat kebabs with herbs and spices</p>
+                <div class="menu-item-meta"><span class="menu-item-tag bestseller">Bestseller</span></div>
+            </div>
+            <div class="menu-item-price">₹279</div>
+        </div>
+
+        <!-- VEG MOMOS - VEG -->
+        <div class="menu-item reveal" data-category="starter" data-type="veg">
+            <div class="menu-item-img">
+                <img src="images/veg-momos.jpeg" alt="Veg Momos" style="width:100%;height:100%;object-fit:cover">
+            </div>
+            <div class="menu-item-details">
+                <h4><span class="food-type veg"></span>Veg Momos</h4>
+                <p class="desc">Steamed dumplings with spicy red chutney</p>
+                <div class="menu-item-meta"><span class="menu-item-tag healthy">Healthy</span></div>
+            </div>
+            <div class="menu-item-price">₹129</div>
+        </div>
+
+        <!-- PANEER TIKKA - VEG -->
+        <div class="menu-item reveal" data-category="starter" data-type="veg">
+            <div class="menu-item-img">
+                <img src="images/paneer-tikka.jpeg" alt="Paneer Tikka" style="width:100%;height:100%;object-fit:cover">
+            </div>
+            <div class="menu-item-details">
+                <h4><span class="food-type veg"></span>Paneer Tikka</h4>
+                <p class="desc">Grilled cottage cheese with bell peppers & onion</p>
+                <div class="menu-item-meta"><span class="menu-item-tag bestseller">Bestseller</span></div>
+            </div>
+            <div class="menu-item-price">₹219</div>
+        </div>
+
+        <!-- BUTTER CHICKEN - NON-VEG -->
+        <div class="menu-item reveal" data-category="main" data-type="nonveg">
+            <div class="menu-item-img">
+                <img src="images/butter-chicken.jpeg" alt="Butter Chicken" style="width:100%;height:100%;object-fit:cover">
+            </div>
+            <div class="menu-item-details">
+                <h4><span class="food-type nonveg"></span>Butter Chicken</h4>
+                <p class="desc">Creamy tomato-based curry with tender chicken</p>
+                <div class="menu-item-meta"><span class="menu-item-tag spicy">Spicy</span><span class="menu-item-tag bestseller">Bestseller</span></div>
+            </div>
+            <div class="menu-item-price">₹329</div>
+        </div>
+
+        <!-- PANEER BUTTER MASALA - VEG -->
+        <div class="menu-item reveal" data-category="main" data-type="veg">
+            <div class="menu-item-img">
+                <img src="images/food-plate-2.jpeg" alt="Paneer Butter Masala" style="width:100%;height:100%;object-fit:cover">
+            </div>
+            <div class="menu-item-details">
+                <h4><span class="food-type veg"></span>Paneer Butter Masala</h4>
+                <p class="desc">Rich and creamy paneer in tomato gravy</p>
+                <div class="menu-item-meta"><span class="menu-item-tag bestseller">Bestseller</span></div>
+            </div>
+            <div class="menu-item-price">₹269</div>
+        </div>
+
+        <!-- DAL MAKHANI - VEG -->
+        <div class="menu-item reveal" data-category="main" data-type="veg">
+            <div class="menu-item-img">
+                <img src="images/dal-makhani.jpeg" alt="Dal Makhani" style="width:100%;height:100%;object-fit:cover">
+            </div>
+            <div class="menu-item-details">
+                <h4><span class="food-type veg"></span>Dal Makhani</h4>
+                <p class="desc">Slow-cooked black lentils with butter and cream</p>
+                <div class="menu-item-meta"><span class="menu-item-tag healthy">Healthy</span></div>
+            </div>
+            <div class="menu-item-price">₹199</div>
+        </div>
+
+        <!-- VEG BIRYANI - VEG -->
+        <div class="menu-item reveal" data-category="main" data-type="veg">
+            <div class="menu-item-img">
+                <img src="images/biryani.jpeg" alt="Veg Biryani" style="width:100%;height:100%;object-fit:cover">
+            </div>
+            <div class="menu-item-details">
+                <h4><span class="food-type veg"></span>Veg Biryani</h4>
+                <p class="desc">Fragrant basmati rice with mixed vegetables & spices</p>
+                <div class="menu-item-meta"><span class="menu-item-tag healthy">Healthy</span></div>
+            </div>
+            <div class="menu-item-price">₹229</div>
+        </div>
+
+        <!-- BUTTER NAAN - VEG -->
+        <div class="menu-item reveal" data-category="breads" data-type="veg">
+            <div class="menu-item-img">
+                <img src="images/naan.jpeg" alt="Butter Naan" style="width:100%;height:100%;object-fit:cover">
+            </div>
+            <div class="menu-item-details">
+                <h4><span class="food-type veg"></span>Butter Naan</h4>
+                <p class="desc">Soft tandoori naan brushed with butter</p>
+                <div class="menu-item-meta"><span class="menu-item-tag bestseller">Bestseller</span></div>
+            </div>
+            <div class="menu-item-price">₹69</div>
+        </div>
+
+        <!-- GARLIC NAAN - VEG -->
+        <div class="menu-item reveal" data-category="breads" data-type="veg">
+            <div class="menu-item-img">
+                <img src="images/naan.jpeg" alt="Garlic Naan" style="width:100%;height:100%;object-fit:cover">
+            </div>
+            <div class="menu-item-details">
+                <h4><span class="food-type veg"></span>Garlic Naan</h4>
+                <p class="desc">Naan topped with garlic and coriander</p>
+                <div class="menu-item-meta"></div>
+            </div>
+            <div class="menu-item-price">₹79</div>
+        </div>
+
+        <!-- MISSI ROTI - VEG -->
+        <div class="menu-item reveal" data-category="breads" data-type="veg">
+            <div class="menu-item-img">
+                <img src="images/food-plate-1.jpeg" alt="Missi Roti" style="width:100%;height:100%;object-fit:cover">
+            </div>
+            <div class="menu-item-details">
+                <h4><span class="food-type veg"></span>Missi Roti</h4>
+                <p class="desc">Whole wheat bread with besan and spices</p>
+                <div class="menu-item-meta"><span class="menu-item-tag healthy">Healthy</span></div>
+            </div>
+            <div class="menu-item-price">₹59</div>
+        </div>
+
+        <!-- MANGO LASSI - VEG -->
+        <div class="menu-item reveal" data-category="beverage" data-type="veg">
+            <div class="menu-item-img">
+                <img src="images/cold-drinks.jpeg" alt="Mango Lassi" style="width:100%;height:100%;object-fit:cover">
+            </div>
+            <div class="menu-item-details">
+                <h4><span class="food-type veg"></span>Mango Lassi</h4>
+                <p class="desc">Fresh mango yogurt shake — sweet and creamy</p>
+                <div class="menu-item-meta"><span class="menu-item-tag healthy">Healthy</span></div>
+            </div>
+            <div class="menu-item-price">₹89</div>
+        </div>
+
+        <!-- MASALA COKE - VEG -->
+        <div class="menu-item reveal" data-category="beverage" data-type="veg">
+            <div class="menu-item-img">
+                <img src="images/cold-drinks.jpeg" alt="Masala Coke" style="width:100%;height:100%;object-fit:cover">
+            </div>
+            <div class="menu-item-details">
+                <h4><span class="food-type veg"></span>Masala Coke</h4>
+                <p class="desc">Refreshing cola with Indian masala twist</p>
+                <div class="menu-item-meta"></div>
+            </div>
+            <div class="menu-item-price">₹59</div>
+        </div>
+
+        <!-- MASALA CHAI - VEG -->
+        <div class="menu-item reveal" data-category="beverage" data-type="veg">
+            <div class="menu-item-img">
+                <img src="images/food-plate-2.jpeg" alt="Masala Chai" style="width:100%;height:100%;object-fit:cover">
+            </div>
+            <div class="menu-item-details">
+                <h4><span class="food-type veg"></span>Masala Chai</h4>
+                <p class="desc">Authentic Indian spiced tea — hot & fresh</p>
+                <div class="menu-item-meta"><span class="menu-item-tag healthy">Healthy</span></div>
+            </div>
+            <div class="menu-item-price">₹39</div>
+        </div>
+
+        <!-- TANDOORI CHICKEN - NON-VEG -->
+        <div class="menu-item reveal" data-category="starter" data-type="nonveg">
+            <div class="menu-item-img">
+                <img src="images/tandoori-chicken.jpeg" alt="Tandoori Chicken" style="width:100%;height:100%;object-fit:cover">
+            </div>
+            <div class="menu-item-details">
+                <h4><span class="food-type nonveg"></span>Tandoori Chicken</h4>
+                <p class="desc">Full leg piece marinated in yogurt & tandoori spices</p>
+                <div class="menu-item-meta"><span class="menu-item-tag spicy">Spicy</span><span class="menu-item-tag bestseller">Bestseller</span></div>
+            </div>
+            <div class="menu-item-price">₹299</div>
+        </div>
+
+        <!-- CHICKEN BIRYANI - NON-VEG -->
+        <div class="menu-item reveal" data-category="main" data-type="nonveg">
+            <div class="menu-item-img">
+                <img src="images/biryani.jpeg" alt="Chicken Biryani" style="width:100%;height:100%;object-fit:cover">
+            </div>
+            <div class="menu-item-details">
+                <h4><span class="food-type nonveg"></span>Chicken Biryani</h4>
+                <p class="desc">Aromatic basmati rice layered with spicy chicken</p>
+                <div class="menu-item-meta"><span class="menu-item-tag spicy">Spicy</span></div>
+            </div>
+            <div class="menu-item-price">₹279</div>
+        </div>
+
+        <!-- CHICKEN MOMO - NON-VEG -->
+        <div class="menu-item reveal" data-category="starter" data-type="nonveg">
+            <div class="menu-item-img">
+                <img src="images/chicken-momos.jpeg" alt="Chicken Momos" style="width:100%;height:100%;object-fit:cover">
+            </div>
+            <div class="menu-item-details">
+                <h4><span class="food-type nonveg"></span>Chicken Momos</h4>
+                <p class="desc">Steamed chicken dumplings with spicy sauce</p>
+                <div class="menu-item-meta"><span class="menu-item-tag spicy">Spicy</span></div>
+            </div>
+            <div class="menu-item-price">₹169</div>
+        </div>
+
+    </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery" id="gallery">
+    <div class="section-header reveal">
+        <span class="section-tag">Visual Feast</span>
+        <h2 class="section-title">Food <span class="highlight">Gallery</span></h2>
+        <div class="section-line"></div>
+    </div>
+    <div class="gallery-scroll">
+        <div class="gallery-item"><img src="images/butter-chicken.jpeg" alt="Butter Chicken" style="width:100%;height:100%;object-fit:cover;border-radius:20px"></div>
+        <div class="gallery-item"><img src="images/tandoori-chicken.jpeg" alt="Tandoori Chicken" style="width:100%;height:100%;object-fit:cover;border-radius:20px"></div>
+        <div class="gallery-item"><img src="images/paneer-tikka.jpeg" alt="Paneer Tikka" style="width:100%;height:100%;object-fit:cover;border-radius:20px"></div>
+        <div class="gallery-item"><img src="images/biryani.jpeg" alt="Biryani" style="width:100%;height:100%;object-fit:cover;border-radius:20px"></div>
+        <div class="gallery-item"><img src="images/dal-makhani.jpeg" alt="Dal Makhani" style="width:100%;height:100%;object-fit:cover;border-radius:20px"></div>
+        <div class="gallery-item"><img src="images/chicken-momos.jpeg" alt="Chicken Momos" style="width:100%;height:100%;object-fit:cover;border-radius:20px"></div>
+        <div class="gallery-item"><img src="images/veg-momos.jpeg" alt="Veg Momos" style="width:100%;height:100%;object-fit:cover;border-radius:20px"></div>
+        <div class="gallery-item"><img src="images/naan.jpeg" alt="Naan" style="width:100%;height:100%;object-fit:cover;border-radius:20px"></div>
+        <div class="gallery-item"><img src="images/food-plate-1.jpeg" alt="Food Plate" style="width:100%;height:100%;object-fit:cover;border-radius:20px"></div>
+        <div class="gallery-item"><img src="images/food-plate-2.jpeg" alt="Food Plate" style="width:100%;height:100%;object-fit:cover;border-radius:20px"></div>
+        <div class="gallery-item"><img src="images/cold-drinks.jpeg" alt="Cold Drinks" style="width:100%;height:100%;object-fit:cover;border-radius:20px"></div>
+        <div class="gallery-item"><img src="images/ambiance-1.jpeg" alt="Ambiance" style="width:100%;height:100%;object-fit:cover;border-radius:20px"></div>
+        <!-- Duplicate for infinite scroll -->
+        <div class="gallery-item"><img src="images/butter-chicken.jpeg" alt="Butter Chicken" style="width:100%;height:100%;object-fit:cover;border-radius:20px"></div>
+        <div class="gallery-item"><img src="images/tandoori-chicken.jpeg" alt="Tandoori Chicken" style="width:100%;height:100%;object-fit:cover;border-radius:20px"></div>
+        <div class="gallery-item"><img src="images/paneer-tikka.jpeg" alt="Paneer Tikka" style="width:100%;height:100%;object-fit:cover;border-radius:20px"></div>
+        <div class="gallery-item"><img src="images/biryani.jpeg" alt="Biryani" style="width:100%;height:100%;object-fit:cover;border-radius:20px"></div>
+        <div class="gallery-item"><img src="images/dal-makhani.jpeg" alt="Dal Makhani" style="width:100%;height:100%;object-fit:cover;border-radius:20px"></div>
+        <div class="gallery-item"><img src="images/chicken-momos.jpeg" alt="Chicken Momos" style="width:100%;height:100%;object-fit:cover;border-radius:20px"></div>
+        <div class="gallery-item"><img src="images/veg-momos.jpeg" alt="Veg Momos" style="width:100%;height:100%;object-fit:cover;border-radius:20px"></div>
+        <div class="gallery-item"><img src="images/naan.jpeg" alt="Naan" style="width:100%;height:100%;object-fit:cover;border-radius:20px"></div>
+        <div class="gallery-item"><img src="images/food-plate-1.jpeg" alt="Food Plate" style="width:100%;height:100%;object-fit:cover;border-radius:20px"></div>
+        <div class="gallery-item"><img src="images/food-plate-2.jpeg" alt="Food Plate" style="width:100%;height:100%;object-fit:cover;border-radius:20px"></div>
+        <div class="gallery-item"><img src="images/cold-drinks.jpeg" alt="Cold Drinks" style="width:100%;height:100%;object-fit:cover;border-radius:20px"></div>
+        <div class="gallery-item"><img src="images/ambiance-1.jpeg" alt="Ambiance" style="width:100%;height:100%;object-fit:cover;border-radius:20px"></div>
+    </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials" id="testimonials">
+    <div class="section-header reveal">
+        <span class="section-tag" style="color:var(--gold)">Happy Customers</span>
+        <h2 class="section-title">What People <span class="highlight">Say</span></h2>
+        <div class="section-line"></div>
+    </div>
+    <div class="testimonial-grid">
+        <div class="testimonial-card reveal">
+            <div class="stars">★★★★★</div>
+            <p>"Best restaurant in Loni! The butter chicken is absolutely divine. The ambiance is great and staff is very friendly. Highly recommended!"</p>
+            <div class="testimonial-author">
+                <div class="testimonial-avatar">RK</div>
+                <div class="testimonial-author-info"><h5>Rahul Kumar</h5><span>Regular Customer</span></div>
+            </div>
+        </div>
+        <div class="testimonial-card reveal">
+            <div class="stars">★★★★★</div>
+            <p>"Amazing food and pocket-friendly prices. The tandoori items are fresh and delicious. Perfect place for family dinner outings!"</p>
+            <div class="testimonial-author">
+                <div class="testimonial-avatar">PS</div>
+                <div class="testimonial-author-info"><h5>Priya Sharma</h5><span>Food Lover</span></div>
+            </div>
+        </div>
+        <div class="testimonial-card reveal">
+            <div class="stars">★★★★★</div>
+            <p>"We ordered a party menu for 50 people and everything was perfect. The biryani and paneer dishes were a huge hit. Thank you Red Flame!"</p>
+            <div class="testimonial-author">
+                <div class="testimonial-avatar">AV</div>
+                <div class="testimonial-author-info"><h5>Amit Verma</h5><span>Birthday Party Host</span></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- OFFERS -->
+<section class="offers" id="offers">
+    <div class="section-header reveal">
+        <span class="section-tag">Don't Miss Out</span>
+        <h2 class="section-title">Special <span class="highlight">Offers</span></h2>
+        <div class="section-line"></div>
+    </div>
+    <div class="offers-grid">
+        <div class="offer-card reveal" style="background:linear-gradient(135deg,rgba(230,57,70,.9),rgba(157,2,8,.9)),url('images/family-dining.jpeg');background-size:cover;background-position:center">
+            <div class="offer-tag">LIMITED</div>
+            <h3>Family Combo</h3>
+            <p>Get a complete family meal for 4 people including 2 starters, 3 main course, 4 naans, rice & 4 beverages at just ₹999!</p>
+        </div>
+        <div class="offer-card reveal" style="background:linear-gradient(135deg,rgba(244,132,95,.9),rgba(230,57,70,.9)),url('images/cold-drinks.jpeg');background-size:cover;background-position:center">
+            <div class="offer-tag">WEEKEND</div>
+            <h3>Happy Hours</h3>
+            <p>Enjoy 20% off on all beverages every Saturday & Sunday between 12 PM to 4 PM. Perfect for weekend brunch!</p>
+        </div>
+        <div class="offer-card reveal" style="background:linear-gradient(135deg,rgba(255,183,3,.9),rgba(244,132,95,.9)),url('images/birthday-setup.jpeg');background-size:cover;background-position:center">
+            <div class="offer-tag">NEW</div>
+            <h3>First Visit</h3>
+            <p>New here? Get flat 15% off on your first order above ₹500. Just mention "Red Flame Welcome" when ordering!</p>
+        </div>
+    </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+    <div class="section-header reveal">
+        <span class="section-tag">Get in Touch</span>
+        <h2 class="section-title">Find <span class="highlight">Us</span></h2>
+        <div class="section-line"></div>
+    </div>
+    <div class="contact-grid">
+        <div class="contact-info">
+            <div class="contact-card reveal">
+                <div class="contact-card-icon">📍</div>
+                <div><h4>Our Location</h4><p>Bus Stand, C-83 2NO, Indrapuri Rd, Block C, Indrapuri Colony, Loni, Ghaziabad, Uttar Pradesh 201102</p></div>
+            </div>
+            <div class="contact-card reveal">
+                <div class="contact-card-icon">🕐</div>
+                <div><h4>Opening Hours</h4><p>Monday - Sunday: 11:00 AM - 11:00 PM<br>Late night orders available on weekends</p></div>
+            </div>
+            <div class="contact-card reveal">
+                <div class="contact-card-icon">📞</div>
+                <div><h4>Call Us</h4><p>For reservations & orders, call us directly from Google Maps listing</p></div>
+            </div>
+            <div class="contact-card reveal" style="justify-content:center;text-align:center;cursor:pointer" onclick="openBookingModal()">
+                <div class="contact-card-icon" style="background:linear-gradient(135deg,#25D366,#128C7E);font-size:1.8rem">📱</div>
+                <div><h4>Quick Booking via WhatsApp</h4><p style="color:var(--red);font-weight:600">Click here to book your table instantly!</p></div>
+            </div>
+            <div class="contact-card reveal">
+                <div class="contact-card-icon">🌐</div>
+                <div><h4>Follow Us</h4>
+                    <div class="social-links"><a href="#" class="social-link">📘</a><a href="#" class="social-link">📸</a><a href="#" class="social-link">🐦</a><a href="#" class="social-link">▶️</a></div>
+                </div>
+            </div>
+        </div>
+        <div class="contact-map reveal">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3502.0!2d77.0!3d28.7!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cf9bb111e9017%3A0x6be5d359fe8d9ee3!2sRED%20FLAME%20RESTAURANT!5e0!3m2!1sen!2sin!4v1" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="footer-grid">
+        <div class="footer-brand">
+            <h3>🔥 Red <span class="highlight">Flame</span></h3>
+            <p>Where passion meets flavor. Experience the authentic taste of India at Red Flame Restaurant, Loni, Ghaziabad.</p>
+            <div class="social-links" style="margin-top:20px"><a href="#" class="social-link">📘</a><a href="#" class="social-link">📸</a><a href="#" class="social-link">🐦</a><a href="#" class="social-link">▶️</a></div>
+        </div>
+        <div class="footer-col">
+            <h4>Quick Links</h4>
+            <ul><li><a href="#home">Home</a></li><li><a href="#about">About Us</a></li><li><a href="#menu">Menu</a></li><li><a href="#gallery">Gallery</a></li><li><a href="#contact">Contact</a></li></ul>
+        </div>
+        <div class="footer-col">
+            <h4>Top Dishes</h4>
+            <ul><li><a href="#menu">Butter Chicken</a></li><li><a href="#menu">Paneer Tikka</a></li><li><a href="#menu">Veg Biryani</a></li><li><a href="#menu">Dal Makhani</a></li><li><a href="#menu">Butter Naan</a></li></ul>
+        </div>
+        <div class="footer-col">
+            <h4>Visit Us</h4>
+            <ul><li><a href="https://maps.app.goo.gl/BeLcogwb3Zeh2msP9" target="_blank">📍 Google Maps</a></li><li><a href="#">🕐 11AM - 11PM Daily</a></li><li><a href="#">📞 Call for Reservations</a></li><li><a href="#">🎉 Party Orders Welcome</a></li></ul>
+        </div>
+    </div>
+    <div class="footer-bottom"><p>&copy; 2025 <span class="highlight">Red Flame Restaurant</span>. All rights reserved. | Made with ❤️ in Loni, Ghaziabad</p></div>
+</footer>
+
+<!-- BOOK TABLE MODAL -->
+<div class="modal-overlay" id="bookingModal">
+    <div class="booking-modal">
+        <div class="modal-header">
+            <button class="modal-close" onclick="closeBookingModal()">&times;</button>
+            <h2>🍽️ Book a Table</h2>
+            <p>Fill the form & your booking goes straight to WhatsApp!</p>
+        </div>
+        <div class="modal-body">
+            <form id="bookingForm" onsubmit="sendToWhatsApp(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Your Name <span class="required">*</span></label>
+                        <input type="text" id="bkName" placeholder="e.g. Rahul Kumar" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number <span class="required">*</span></label>
+                        <input type="tel" id="bkPhone" placeholder="e.g. 9876543210" pattern="[0-9]{10}" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Date <span class="required">*</span></label>
+                        <input type="date" id="bkDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Time <span class="required">*</span></label>
+                        <input type="time" id="bkTime" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Number of Guests <span class="required">*</span></label>
+                        <select id="bkGuests" required>
+                            <option value="">Select...</option>
+                            <option>1 Person</option>
+                            <option>2 People</option>
+                            <option>3 People</option>
+                            <option>4 People</option>
+                            <option>5 People</option>
+                            <option>6 People</option>
+                            <option>7-10 People</option>
+                            <option>10+ (Party Order)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Occasion <span class="required">*</span></label>
+                        <select id="bkOccasion" required>
+                            <option value="">Select...</option>
+                            <option>Birthday</option>
+                            <option>Anniversary</option>
+                            <option>Date Night</option>
+                            <option>Family Dinner</option>
+                            <option>Business Meeting</option>
+                            <option>Casual Dining</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Special Requests <span class="required">*</span></label>
+                    <textarea id="bkRequest" placeholder="e.g. Veg/Non-Veg preference, Corner table, Cake requirement..." required></textarea>
+                </div>
+                <button type="submit" class="form-submit">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    Send Booking on WhatsApp
+                </button>
+            </form>
+            <div class="whatsapp-badge">
+                <svg viewBox="0 0 24 24" fill="#075E54"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                Your booking details will be sent directly to restaurant's WhatsApp
+            </div>
+        </div>
+    </div>
+</div>
+
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+// RESTAURANT WHATSAPP NUMBER — Change this to the owner's actual number
+const RESTAURANT_WHATSAPP = '919873414188';
+window.addEventListener('scroll', () => {
+    document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 50);
+    document.getElementById('backToTop').classList.toggle('visible', window.scrollY > 500);
+});
+
+const revealOnScroll = () => {
+    document.querySelectorAll('.reveal').forEach(el => {
+        if (el.getBoundingClientRect().top < window.innerHeight - 100) el.classList.add('active');
+    });
+};
+window.addEventListener('scroll', revealOnScroll);
+window.addEventListener('load', revealOnScroll);
+
+function filterMenu(category, btn) {
+    document.querySelectorAll('.menu-cat').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.menu-item').forEach(item => {
+        if (category === 'all' || item.dataset.category === category) {
+            item.style.display = 'flex';
+            setTimeout(() => { item.style.opacity = '1'; item.style.transform = 'translateY(0)'; }, 50);
+        } else {
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(20px)';
+            setTimeout(() => { item.style.display = 'none'; }, 300);
+        }
+    });
+}
+
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+        e.preventDefault();
+        const t = document.querySelector(a.getAttribute('href'));
+        if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+});
+
+// BOOKING MODAL
+function openBookingModal() {
+    document.getElementById('bookingModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+    // Set min date to today
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('bkDate').setAttribute('min', today);
+    document.getElementById('bkDate').value = today;
+}
+function closeBookingModal() {
+    document.getElementById('bookingModal').classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+// Open modal from any "Book Table" button/link
+document.querySelectorAll('.nav-cta, [href="#contact"]').forEach(el => {
+    el.addEventListener('click', function(e) {
+        if (this.textContent.includes('Book Table')) {
+            e.preventDefault();
+            openBookingModal();
+        }
+    });
+});
+
+// Close modal on overlay click
+document.getElementById('bookingModal').addEventListener('click', function(e) {
+    if (e.target === this) closeBookingModal();
+});
+
+// Close modal on Escape
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeBookingModal(); });
+
+// SEND TO WHATSAPP
+function sendToWhatsApp(e) {
+    e.preventDefault();
+    const name = document.getElementById('bkName').value.trim();
+    const phone = document.getElementById('bkPhone').value.trim();
+    const date = document.getElementById('bkDate').value;
+    const time = document.getElementById('bkTime').value;
+    const guests = document.getElementById('bkGuests').value;
+    const occasion = document.getElementById('bkOccasion').value;
+    const request = document.getElementById('bkRequest').value.trim();
+
+    if (!name || !phone || !date || !time || !guests || !occasion || !request) {
+        alert('Please fill all required fields!');
+        return;
+    }
+
+    // Format date nicely
+    const dateObj = new Date(date + 'T00:00:00');
+    const formattedDate = dateObj.toLocaleDateString('en-IN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+    // Format time nicely
+    const [hours, minutes] = time.split(':');
+    const h = parseInt(hours);
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    const h12 = h % 12 || 12;
+    const formattedTime = h12 + ':' + minutes + ' ' + ampm;
+
+    let msg = '🍽️ *TABLE BOOKING — Red Flame Restaurant*\n\n';
+    msg += '👤 *Name:* ' + name + '\n';
+    msg += '📱 *Phone:* ' + phone + '\n';
+    msg += '📅 *Date:* ' + formattedDate + '\n';
+    msg += '🕐 *Time:* ' + formattedTime + '\n';
+    msg += '👥 *Guests:* ' + guests + '\n';
+    msg += '🎉 *Occasion:* ' + occasion + '\n';
+    msg += '💬 *Special Request:* ' + request + '\n';
+    msg += '\n📍 Bus Stand, C-83 2NO, Indrapuri Rd, Loni, Ghaziabad';
+    msg += '\n\n_Booking sent from Red Flame Restaurant Website_';
+
+    const encodedMsg = encodeURIComponent(msg);
+    const whatsappURL = 'https://wa.me/' + RESTAURANT_WHATSAPP + '?text=' + encodedMsg;
+
+    window.open(whatsappURL, '_blank');
+    closeBookingModal();
+    document.getElementById('bookingForm').reset();
+}
+</script>
+</body>
+</html>
